@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user|yesno:"Update User,Add User" }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            background: #f4f4f4;
+            padding: 20px;
+            border-radius: 8px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        input, select, button {
+            width: 100%;
+            margin-bottom: 15px;
+            padding: 10px;
+        }
+        button {
+            background-color: #0073e6;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #005bb5;
+        }
+    </style>
+</head>
+<body>
+    <h1>{{ user|yesno:"Update User,Add User" }}</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <label for="name">Name</label>
+        <input type="text" id="name" name="name" value="{{ user.first_name }}" required>
+
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" value="{{ user.username }}" required>
+
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" value="{{ user.email }}" required>
+
+        <label for="role">Role</label>
+        <select id="role" name="role" required>
+            {% for role in roles %}
+            <option value="{{ role.id }}" {% if user and user.role == role %}selected{% endif %}>
+                {{ role.name }}
+            </option>
+            {% endfor %}
+        </select>
+
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Leave blank to keep current password">
+
+        <button type="submit">{{ user|yesno:"Update User,Add User" }}</button>
+    </form>
+</body>
+</html>

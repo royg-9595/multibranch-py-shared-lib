@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Organization Admin Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, Organization Admin!</h1>
+    <h2>Users in {{ request.user.organization.name }}</h2>
+    <ul>
+        {% for user in users %}
+        <li>{{ user.username }} - {{ user.role.name if user.role else "No Role" }}</li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'add_role' %}">Add Role</a>
+    <a href="{% url 'add_user' %}">Add User</a>
+    <a href="{% url 'logout' %}">Logout</a>
+</body>
+</html>

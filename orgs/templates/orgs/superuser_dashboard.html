@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Superuser Dashboard</title>
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        h1 {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .header-buttons {
+            display: flex;
+            gap: 10px;
+        }
+
+        button,
+        a {
+            text-decoration: none;
+            padding: 10px 15px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+            color: white;
+            background-color: #007BFF;
+        }
+
+        button:hover,
+        a:hover {
+            background-color: #0056b3;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            background-color: white;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007BFF;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .icon {
+            cursor: pointer;
+            margin: 0 5px;
+        }
+
+        .icon:hover {
+            color: red;
+        }
+
+        .update-icon {
+            color: #007BFF;
+        }
+
+        .delete-icon {
+            color: #FF4136;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>
+        Welcome, {{ request.user.username }}!
+        <div class="header-buttons">
+            <a href="{% url 'add_organization' %}">Add Organization</a>
+            <!-- <a href="">Add Org Admin</a> -->
+            <a href="{% url 'logout' %}">Logout</a>
+        </div>
+    </h1>
+    <h2>Organizations</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for org in organizations %}
+            <tr>
+                <td>{{ org.name }}</td>
+                <td>{{ org.address }}</td>
+                <td>
+                    <span class="icon update-icon" onclick="updateOrg('{{ org.id }}')">&#9998;EDIT</span>
+                    <span class="icon delete-icon" onclick="confirmDelete('{{ org.id }}')">&#8722;DELETE</span>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function updateOrg(orgId) {
+            const url = `/manage_organization/${orgId}/`; // Update URL structure as per your backend
+            window.location.href = url;
+        }
+
+        function confirmDelete(orgId) {
+            const isConfirmed = confirm("Are you sure you want to delete this organization?");
+            if (isConfirmed) {
+                const url = `/delete_organization/${orgId}/`; // Update URL structure as per your backend
+                window.location.href = url;
+            }
+        }
+    </script>
+</body>
+
+</html>
