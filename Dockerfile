@@ -1,5 +1,8 @@
-FROM openjdk:11-jre-slim
+FROM python:3.11
 WORKDIR /app
-COPY target/*.jar app.jar
-EXPOSE 8080
-CMD ["java", "-jar", "app.jar"]
+COPY requirements.txt .
+RUN pip install -r requirements.txt
+COPY . .
+RUN chmod +x entrypoint.sh
+EXPOSE 8000
+CMD ["/app/entrypoint.sh"]
