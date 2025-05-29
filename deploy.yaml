@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app: python-deploy
+  name: python-deploy
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: python-deploy
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: python-deploy
+    spec:
+      containers:
+      - image: jayanthroyg/pythonimage:latest
+        name: pythonimage
+        ports:
+        - containerPort: 8000
+        resources: {}
+status: {}
